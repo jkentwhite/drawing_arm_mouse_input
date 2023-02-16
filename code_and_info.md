@@ -48,7 +48,7 @@ float base_angle, elbow_angle;
 
 String command;
 
-boolean led_magnet = false;
+boolean led = false;
 
 float pulselength_base, pulselength_elbow;
 
@@ -101,7 +101,7 @@ void loop() {
   // once we have parsed the incoming data from Processing
   // we start by checking to see if the magnet is on(true) or off(false)
   // this says, "if magnet is true, then..."
-  if(led_magnet){
+  if(led){
       //turn on the LED
       digitalWrite(13, HIGH);
 
@@ -110,7 +110,7 @@ void loop() {
       pwm.setPWM(1,0,pulselength_elbow);
 
     } else {
-      // if magnet is false, turn off the LED/magnet
+      // if led is false, turn off the LED
       digitalWrite(13, LOW);
 
     }
@@ -126,7 +126,7 @@ void loop() {
 
 // this is a function that takes the data from Processing
 // and parses it into three parts
-// base_angle, elbow_angle, and magnet
+// base_angle, elbow_angle, and led/magnet
 // you don't have to do anything with this at all
 void parseCommand(String com) {
   String part1;
@@ -141,9 +141,9 @@ void parseCommand(String com) {
   elbow_angle = part1.toInt();
   base_angle = part2.toInt();
   if(part3 == "true"){
-    led_magnet = true;
+    led = true;
   } else {
-    led_magnet = false;
+    led = false;
     }
 
 }
@@ -177,7 +177,7 @@ float inner_arm = 9; // the length of the shoulder
 float outer_arm = 9; // the length of the elbow
 
 // this is a true/false variable for the magnet/LED
-boolean magnet = false;
+boolean led = false;
 
 // setup ONLY runs once
 // we establish variables and drawing canvas size
@@ -219,8 +219,8 @@ void draw() {
   // here we are checking to see if the mouse is being pressed
   if (mousePressed) {
   // if the mouse is pressed we want to:
-      // turn on the magnet
-       magnet = true;
+      // turn on the led
+       led = true;
 
       // and get x,y coordinates to convert to angles
       xpos = map(mouseX, 0, width, -15, 15);
@@ -249,8 +249,8 @@ void draw() {
   } else {
 
       // if the mouse is not being pressed
-      // we turn the magnet off
-      magnet = false;
+      // we turn the led off
+      led = false;
   }
 
   // this part converts the math angles into a string to send to the Arduino
